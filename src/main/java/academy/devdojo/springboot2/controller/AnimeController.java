@@ -5,6 +5,7 @@ import academy.devdojo.springboot2.requests.AnimePostResquestBody;
 import academy.devdojo.springboot2.requests.AnimePutResquestBody;
 import academy.devdojo.springboot2.service.AnimeService;
 import academy.devdojo.springboot2.util.DateUtil;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,13 @@ public class AnimeController {
         return ResponseEntity.ok(service.findByIdOrThrowBadRequestException(id));
     }
 
+    @GetMapping(path = "/find")
+    public ResponseEntity<List<Anime>> findByName(@RequestParam String name) {
+        return ResponseEntity.ok(service.findByName(name));
+    }
+
     @PostMapping
-    public ResponseEntity<Anime> save(@RequestBody AnimePostResquestBody animePostResquestBody) {
+    public ResponseEntity<Anime> save(@RequestBody @Valid AnimePostResquestBody animePostResquestBody) {
         return new ResponseEntity<>(service.save(animePostResquestBody), HttpStatus.CREATED);
     }
 
