@@ -1,6 +1,7 @@
 package academy.devdojo.springboot2.repository;
 
 import academy.devdojo.springboot2.domain.Anime;
+import academy.devdojo.springboot2.util.AnimeCreator;
 import jakarta.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -18,16 +19,11 @@ class AnimeRepositoryTest {
     @Autowired
     private AnimeRepository animeRepository;
 
-    private Anime createAnime() {
-        return Anime.builder()
-                .name("Hajime no ippo")
-                .build();
-    }
 
     @Test
     @DisplayName("Save creates anime when successful")
     void save_PersistAnime_WhenSuccessful() {
-        Anime anime = createAnime();
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
         Anime savedAnime = this.animeRepository.save(anime);
 
         Assertions.assertThat(savedAnime).isNotNull();
@@ -38,7 +34,7 @@ class AnimeRepositoryTest {
     @Test
     @DisplayName("Find by name returns list of anime when successful")
     void findByName_ReturnListOfAnime_WhenSuccessful() {
-        Anime anime = createAnime();
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
         Anime savedAnime = this.animeRepository.save(anime);
 
         String name = savedAnime.getName();
@@ -60,7 +56,7 @@ class AnimeRepositoryTest {
     @Test
     @DisplayName("Save update anime when successful")
     void save_UpdateAnime_WhenSuccessful() {
-        Anime anime = createAnime();
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
         Anime savedAnime = this.animeRepository.save(anime);
 
         savedAnime.setName("OverLord");
@@ -75,7 +71,7 @@ class AnimeRepositoryTest {
     @Test
     @DisplayName("Save delete anime when successful")
     void delete_DeleteAnime_WhenSuccessful() {
-        Anime anime = createAnime();
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
         Anime savedAnime = this.animeRepository.save(anime);
 
         this.animeRepository.delete(savedAnime);
